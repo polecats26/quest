@@ -4,4 +4,10 @@ parties
 <%= current_user.first_name %> <%= current_user.last_name %>
 <% end %>
 
-<%= @parties.count %>
+<% @parties.each do |party| %>
+  <%= content_tag :div, class: '' do %>
+    <%= party.id %> 
+    <%= link_to party.title, party_path(party) %> <%= party.party_members.count %>
+    <% if party.user == current_user %>(Owner)<% end %>
+  <% end %>
+<% end %>

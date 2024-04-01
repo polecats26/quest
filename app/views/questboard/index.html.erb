@@ -2,8 +2,20 @@ questboard
 
 show requests
 
-show parties
-<%= @parties.count %>
+<%= content_tag :div, class: '' do %>
+  <%= link_to 'Start a Party', new_party_path %>
+<% end %>
+
+<%= content_tag :h1, 'Parties', class: '' %>
+
+<%= content_tag :ul, class: '' do %>
+  <% @parties.each do |party| %>
+    <%= content_tag :li, class: '' do %>
+      <%= link_to party.title, party_path(party), class: '' %> (<%== party.party_members.count %>)
+    <% end %>
+  <% end %>
+<% end if @parties.count.positive? %>
+
 <%= link_to "Requests #{@party_requests.count.positive? ? "(#{@party_requests.count})" : ''}", party_requests_path %>
 
-show quests
+show quest

@@ -3,7 +3,8 @@ class PartiesController < ApplicationController
   before_action :validate_party, only: [:show]
 
   def index
-    @parties = current_user.parties
+    member_of_parties = PartyMember.where(user: current_user)
+    @parties = member_of_parties.map(&:party).concat(current_user.parties).uniq
   end
 
   def show
@@ -30,6 +31,7 @@ class PartiesController < ApplicationController
 
   def validate_party
     @party = Party.find_by(id: params[:id])
+
     redirect_to user_root_path, alert: 'No party over here' unless @party.present?
   end 
 end

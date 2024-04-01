@@ -1,1 +1,8 @@
 all requests here
+
+<% @party_requests.each do |party_request| %>
+  <%= content_tag :div, class: '' do %>
+    <%= party_request.id %>
+    <%= link_to 'Request', party_request_path(party_request) %>
+  <% end %>
+<% end %>

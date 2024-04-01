@@ -1,21 +1,32 @@
+<%= content_tag :div, @request.party.title, class: '' %>
 <% if @request.accepted.nil? %>
-party request pending<br>
-
-<%= @request.description %>
+  party request pending<br>
+  
+  <%= @request.description %>
 
 
   <%= form_with model: @request, url: party_request_path, method: :patch, local: true do |form| %>
     <%= form.hidden_field :user_id, value: current_user.id %>
+    <%= form.hidden_field :party_id, value: @request.party_id %>
     <%= form.hidden_field :accepted, value: true %>
 
     <div>
-      <%= form.submit %>
+      <%= form.submit 'Accept Party Invite' %>
     </div>
   <% end %>
 
 <% elsif @request.accepted %>
-accepted
+accepted 
+  <%= form_with model: @request, url: party_request_path, method: :patch, local: true do |form| %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    <%= form.hidden_field :party_id, value: @request.party_id %>
+    <%= form.hidden_field :accepted, value: false %>
+
+    <div>
+      <%= form.submit 'Leave Party' %>
+    </div>
+  <% end %>
 <% else %>
-declined
+  declined
 
 <% end %>

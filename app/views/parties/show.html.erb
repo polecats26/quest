@@ -1,3 +1,46 @@
 party show
-
+<%= content_tag :div, "Owner: #{@party.user.first_name}  #{@party.user.last_name}", class: '' %>
 add people
+
+<%= content_tag :ul do %>
+  <% @party.party_members.each do |member| %>
+    <% next if member.user == @party.user %>
+
+    <% unless member == @party.user %>
+      <%= content_tag :li, class: '' do %>
+        <%= "#{member.user.first_name} #{member.user.last_name}" %>
+
+        <% if @party.user == current_user %>
+          <%= form_with model: member, method: :delete, local: true do |form| %>
+            <%= form.hidden_field :id, value: member.id %>
+
+            <%= content_tag :div, class: '' do %>
+              <%= form.submit 'Remove from Party' %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= content_tag :div, class: '' do %>
+  <% @active_requests = @party.party_requests&.where(accepted: nil) %>
+  <% if @active_requests.count.positive? %>
+    Pending Requests:
+    <%= content_tag :ul do %>
+      <% @active_requests.each do |request| %>
+        <%= content_tag :li do %>
+          <%=request.user.email %>
+          <%= form_with model: request, method: :delete, local: true do |form| %>
+            <%= form.hidden_field :id, value: request.id %>
+
+            <%= content_tag :div, class: '' do %>
+              <%= form.submit 'Revoke Request' %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
