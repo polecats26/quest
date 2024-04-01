@@ -1,0 +1,21 @@
+<% if @request.accepted.nil? %>
+party request pending<br>
+
+<%= @request.description %>
+
+
+  <%= form_with model: @request, url: party_request_path, method: :patch, local: true do |form| %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    <%= form.hidden_field :accepted, value: true %>
+
+    <div>
+      <%= form.submit %>
+    </div>
+  <% end %>
+
+<% elsif @request.accepted %>
+accepted
+<% else %>
+declined
+
+<% end %>

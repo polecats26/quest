@@ -1,6 +1,6 @@
-class CreateFellowships < ActiveRecord::Migration[7.1]
+class CreateParties < ActiveRecord::Migration[7.1]
   def change
-    create_table :fellowships do |t|
+    create_table :parties do |t|
       t.string :title
       t.text :description
       t.references :user, null: false, foreign_key: true

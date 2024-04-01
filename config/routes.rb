@@ -16,7 +16,10 @@ Rails.application.routes.draw do
 
   get '/questboard' => "questboard#index", :as => :user_root
 
-  resources :fellowships do
+  resources :parties do
+  end
+
+  resources :party_requests do
   end
 
   # 

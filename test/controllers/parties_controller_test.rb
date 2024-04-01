@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FellowshipMemberTest < ActiveSupport::TestCase
+class PartiesControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

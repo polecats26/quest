@@ -1,1 +1,9 @@
 questboard
+
+show requests
+
+show parties
+<%= @parties.count %>
+<%= link_to "Requests #{@party_requests.count.positive? ? "(#{@party_requests.count})" : ''}", party_requests_path %>
+
+show quests

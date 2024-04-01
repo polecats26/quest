@@ -10,23 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_31_230026) do
-  create_table "fellowship_members", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "fellowship_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["fellowship_id"], name: "index_fellowship_members_on_fellowship_id"
-    t.index ["user_id"], name: "index_fellowship_members_on_user_id"
-  end
-
-  create_table "fellowships", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2024_04_01_163934) do
+  create_table "parties", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_fellowships_on_user_id"
+    t.index ["user_id"], name: "index_parties_on_user_id"
+  end
+
+  create_table "party_members", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "party_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["party_id"], name: "index_party_members_on_party_id"
+    t.index ["user_id"], name: "index_party_members_on_user_id"
+  end
+
+  create_table "party_requests", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "party_id", null: false
+    t.boolean "accepted"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["party_id"], name: "index_party_requests_on_party_id"
+    t.index ["user_id"], name: "index_party_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,7 +55,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_31_230026) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "fellowship_members", "fellowships"
-  add_foreign_key "fellowship_members", "users"
-  add_foreign_key "fellowships", "users"
+  add_foreign_key "parties", "users"
+  add_foreign_key "party_members", "parties"
+  add_foreign_key "party_members", "users"
+  add_foreign_key "party_requests", "parties"
+  add_foreign_key "party_requests", "users"
 end
