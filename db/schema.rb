@@ -10,19 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_01_163934) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_06_185303) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "parties", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_parties_on_user_id"
   end
 
   create_table "party_members", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "party_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "party_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["party_id"], name: "index_party_members_on_party_id"
@@ -30,14 +33,38 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_01_163934) do
   end
 
   create_table "party_requests", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "party_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "party_id", null: false
     t.boolean "accepted"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["party_id"], name: "index_party_requests_on_party_id"
     t.index ["user_id"], name: "index_party_requests_on_user_id"
+  end
+
+  create_table "quest_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "quest_id", null: false
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quest_id"], name: "index_quest_members_on_quest_id"
+    t.index ["user_id"], name: "index_quest_members_on_user_id"
+  end
+
+  create_table "quests", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.bigint "user_id", null: false
+    t.bigint "party_id", null: false
+    t.string "image_url"
+    t.boolean "completed"
+    t.datetime "completion_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["party_id"], name: "index_quests_on_party_id"
+    t.index ["user_id"], name: "index_quests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -60,4 +87,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_01_163934) do
   add_foreign_key "party_members", "users"
   add_foreign_key "party_requests", "parties"
   add_foreign_key "party_requests", "users"
+  add_foreign_key "quest_members", "quests"
+  add_foreign_key "quest_members", "users"
+  add_foreign_key "quests", "parties"
+  add_foreign_key "quests", "users"
 end

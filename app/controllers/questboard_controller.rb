@@ -4,7 +4,8 @@ class QuestboardController < ApplicationController
   def index
     @current_user = current_user
     joined_parties = Party.joins(:party_requests).where(party_requests: { user_id: current_user.id, accepted: true })
-    @parties = current_user.parties.merge(joined_parties) || []
+
+    @parties = current_user.parties.concat(joined_parties) || []
 
     @party_requests = current_user.party_requests.where(accepted: nil)
   end

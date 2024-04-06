@@ -20,12 +20,11 @@ Rails.application.routes.draw do
   end
 
   resources :party_requests do
-
   end
 
   resources :party_members do
-
   end
 
-  # 
+  resources :quests do
+  end
 end

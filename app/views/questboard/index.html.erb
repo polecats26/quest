@@ -11,11 +11,13 @@ show requests
 <%= content_tag :ul, class: '' do %>
   <% @parties.each do |party| %>
     <%= content_tag :li, class: '' do %>
-      <%= link_to party.title, party_path(party), class: '' %> (<%== party.party_members.count %>)
+      <%= link_to party.title, party_path(party), class: '' %> (<%== party.member_count %>)
     <% end %>
   <% end %>
 <% end if @parties.count.positive? %>
 
 <%= link_to "Requests #{@party_requests.count.positive? ? "(#{@party_requests.count})" : ''}", party_requests_path %>
 
-show quest
+<%= content_tag :div, class: '' do %>
+<%= link_to 'Begin Quest', new_quest_path, class: '' %>
+<% end %>

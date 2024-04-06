@@ -1,0 +1,30 @@
+<h1>New Quest</h1>
+
+<%= form_with model: @quest do |form| %>
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <%= content_tag :div, class: '' do %>
+    <%= form.label 'Date (Optional)' %>
+    <%= form.date_field :completion_date %>
+  <% end %>
+
+  <%= content_tag :div, class: '' do %>
+    <%= form.label 'Party (Optional)' %>
+    <%= form.select :party_id, @parties.map { |p| [p.title, p.id]}, include_blank: true %>
+  <% end %>
+
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :completed, value: false %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
